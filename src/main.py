@@ -3,10 +3,11 @@ from sklearn.model_selection import train_test_split
 from data_loader import load_data
 from model import build_model
 from train import train_model
+from constant import * 
 
 
 def split_data(X, y):
-    X_train, X_val, Y_train, Y_val = train_test_split(X, y, test_size=0.2, random_state=42)
+    X_train, X_val, Y_train, Y_val = train_test_split(X, y, test_size = TEST_SIZE, random_state = 42)
     print("x_train shape", X_train.shape)
     print("x_test shape", X_val.shape)
     print("y_train shape", Y_train.shape)
@@ -34,11 +35,8 @@ def plot_history(history):
     
     
     
-DATADIR = "../data/Training"
-CATEGORIES = ["glioma_tumor", "meningioma_tumor", "no_tumor", "pituitary_tumor"]
-IMG_SIZE = 150
 
-X, y = load_data(DATADIR, CATEGORIES, IMG_SIZE)
+X, y = load_data(TRAINING_DATA_DIR, CATEGORIES, IMG_SIZE)
 X_train, X_val, Y_train, Y_val = split_data(X, y)
 model = build_model()
 history = train_model(model, X_train, Y_train, X_val, Y_val)

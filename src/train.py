@@ -1,5 +1,5 @@
 from keras.preprocessing.image import ImageDataGenerator
-
+from constant import *
 
 def train_model(model, X_train, Y_train, X_val, Y_val, epochs=50, batch_size=40):
     datagen = ImageDataGenerator(
@@ -21,7 +21,7 @@ def train_model(model, X_train, Y_train, X_val, Y_val, epochs=50, batch_size=40)
                         epochs=epochs, validation_data=(X_val, Y_val),
                         steps_per_epoch=X_train.shape[0] // batch_size)
 
-    model.save("../models/model.h5")
+    model.save(f"${MODEL_DIR}/model.h5")
     
     return history
 

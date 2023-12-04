@@ -1,10 +1,10 @@
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPool2D
 from keras.optimizers import RMSprop,Adam
-
+from constant import *
 def build_model():
     model = Sequential()
-    model.add(Conv2D(filters=64, kernel_size=(5, 5), padding='Same', activation='relu', input_shape=(150, 150, 1)))
+    model.add(Conv2D(filters=64, kernel_size=(5, 5), padding='Same', activation='relu', input_shape=INPUT_SHAPE))
     model.add(MaxPool2D(pool_size=(2, 2)))
     model.add(Dropout(0.25))
 
