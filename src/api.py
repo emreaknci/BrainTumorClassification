@@ -1,8 +1,11 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import os
 from predict import predict_single_data_category,predict_single_data_status
 from constant import *
+
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/predict_category', methods=['POST'])
 def predict_category():
