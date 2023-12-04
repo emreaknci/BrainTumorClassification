@@ -1,0 +1,51 @@
+/* App.css */
+
+.app-container {
+  text-align: center;
+  margin: 50px;
+}
+
+input {
+  margin: 10px;
+}
+
+button {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #968b8f;
+  color: #fff;
+  margin-top: 20px;
+}
+
+.dropzone {
+  border: 2px dashed #968b8f;
+  padding: 20px;
+  text-align: center;
+  color: #968b8f;
+  position: relative;
+  width: 75%;
+  margin-top: 50px;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  box-sizing: border-box; 
+}
+
+.result-container {
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 75%;
+  margin: 0 auto;
+  background-color: #968b8f;
+  color: #fff;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  margin-top: 20px;
+}
+
+
+.navbar {
+  background-color: #968b8f;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
