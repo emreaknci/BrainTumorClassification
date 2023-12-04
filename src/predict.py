@@ -118,9 +118,9 @@ def predict_single_data_status(model_path, img_path, img_size):
     tumor_status_prediction = 1 if prediction.argmax() in [0, 1, 3] else 0
     
     if tumor_status_prediction==1:
-        return "Based on the file you shared, it seems like there might be a tumor. {MESSAGE}"
+        return f"Based on the file you shared, it seems like there might be a tumor. {MESSAGE}"
     if tumor_status_prediction==0:
-        return "Based on the file you shared, it seems like there might be no tumor. {MESSAGE}"
+        return f"Based on the file you shared, it seems like there might be no tumor. {MESSAGE}"
     
 if __name__ == "__main__":
     X_test, y_test, file_paths = load_test_data(TEST_DATA_DIR, IMG_SIZE)

@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 import os
-from predict import predict_single_data_category
+from predict import predict_single_data_category,predict_single_data_status
 from constant import *
 app = Flask(__name__)
 
@@ -16,7 +16,7 @@ def predict_category():
             file.save(image_path)
            
             model_path=f"{MODEL_DIR}/model.h5"
-            result = predict_single_data_category(model_path, image_path, 150,CATEGORIES)
+            result = predict_single_data_category(model_path, image_path, IMG_SIZE, CATEGORIES)
 
             os.remove(image_path)
 
@@ -27,6 +27,31 @@ def predict_category():
 
     except Exception as e:
         return jsonify(error=str(e))
+    
+@app.route('/predict_status', methods=['POST'])
+def predict_status():
+    try:
+        # Get the image file from the POST request
+        file = request.files['image']
+
+        # Check if the file has a valid filename
+        if file and allowed_file_type(file.filename):
+            image_path = f"../data/{file.filename}"
+            file.save(image_path)
+           
+            model_path=f"{MODEL_DIR}/model.h5"
+            result = predict_single_data_status(model_path, image_path, IMG_SIZE)
+
+            os.remove(image_path)
+
+            return jsonify(result=result)
+
+        else:
+            return jsonify(error="Invalid file format. Supported formats: ['jpg', 'jpeg', 'png']")
+
+    except Exception as e:
+        return jsonify(error=str(e))
+
 
 def allowed_file_type(filename):
     ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png'}
