@@ -23,7 +23,7 @@ def predict_category():
 
             os.remove(image_path)
 
-            return jsonify(result=result)
+            return jsonify(type=result)
 
         else:
             return jsonify(error="Invalid file format. Supported formats: ['jpg', 'jpeg', 'png']")

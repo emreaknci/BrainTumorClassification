@@ -70,7 +70,7 @@ const App = () => {
                 <img
                   src={URL.createObjectURL(selectedFile)}
                   alt="Preview"
-                  style={{ maxWidth: '100%', maxHeight: '100px', marginBottom: '10px' }}
+                  style={{ maxWidth: '100%', maxHeight: '10rem', marginBottom: '10px' }}
                 />
                 <p>{selectedFile.name}</p>
               </>
@@ -90,7 +90,7 @@ const App = () => {
         </button>
 
         {result !== null && (
-          <div className="result-container" style={{ backgroundColor: result ? 'green' : 'rgb(208, 13, 13)' }}>
+          <div className="result-container" style={{ backgroundColor: !result ? 'green' : 'rgb(208, 13, 13)' }}>
             <h2>Prediction Result</h2>
             <p >{result ? `Based on the file you shared, it seems like there might be a tumor. ${MESSAGE}` 
             : `Based on the file you shared, it seems like there might be no tumor. ${MESSAGE}`}</p>

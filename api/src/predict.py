@@ -95,11 +95,9 @@ def predict_single_data_category(model_path, img_path, img_size, categories):
     # Convert prediction to class label
     predicted_label = categories[np.argmax(prediction)]
 
-    if predicted_label in LABEL_MESSAGES:
-        tumor_type = LABEL_MESSAGES[predicted_label]
-        return f"Based on the file you shared, it seems like there might be a '{tumor_type}'. {MESSAGE}"
-    elif predicted_label == "no_tumor":
-        return f"Based on the file you shared, it seems like there might be no tumor. {MESSAGE}"
+    tumor_type = LABEL_MESSAGES[predicted_label]
+    return f"{tumor_type}'"
+
 
 def predict_single_data_status(model_path, img_path, img_size):
     # Read and preprocess the image

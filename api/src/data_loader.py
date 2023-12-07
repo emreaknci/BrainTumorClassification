@@ -1,7 +1,7 @@
 import os
 import cv2
 import numpy as np
-from tensorflow.keras.utils import to_categorical
+from keras.utils import to_categorical
 
 def load_data(DATADIR, CATEGORIES, IMG_SIZE):
     training_data = []

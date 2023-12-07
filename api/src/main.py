@@ -35,9 +35,11 @@ def plot_history(history):
     
     
     
+from keras.utils import plot_model
 
-X, y = load_data(TRAINING_DATA_DIR, CATEGORIES, IMG_SIZE)
-X_train, X_val, Y_train, Y_val = split_data(X, y)
+# X, y = load_data(TRAINING_DATA_DIR, CATEGORIES, IMG_SIZE)
+# X_train, X_val, Y_train, Y_val = split_data(X, y)
 model = build_model()
-history = train_model(model, X_train, Y_train, X_val, Y_val)
-plot_history(history)
+# history = train_model(model, X_train, Y_train, X_val, Y_val)
+# plot_history(history)
+

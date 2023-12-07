@@ -31,5 +31,5 @@ def build_model():
 
     optimizer = Adam(lr=0.001, beta_1=0.9, beta_2=0.999)
     model.compile(optimizer=optimizer, loss="categorical_crossentropy", metrics=["accuracy"])
-
+    model.summary()
     return model
