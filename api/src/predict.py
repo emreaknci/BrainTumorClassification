@@ -13,7 +13,7 @@ def load_test_data(TESTDATADIR, img_size):
             path = os.path.join(TESTDATADIR, category)
             for img in os.listdir(path):
                 try:
-                    img_array = cv2.imread(os.path.join(path, img), cv2.IMREAD_GRAYSCALE)
+                    img_array = cv2.imread(os.path.join(path, img), cv2.IMREAD_COLOR)  # Load image in color (RGB)
                     new_array = cv2.resize(img_array, (img_size, img_size))
                     test_data.append([new_array, os.path.join(path, img), category])
                 except Exception as e:
@@ -29,9 +29,8 @@ def load_test_data(TESTDATADIR, img_size):
         file_paths.append(file_path)
         y_test.append(label)
 
-    X_test = np.array(X_test).reshape(-1, img_size, img_size)
+    X_test = np.array(X_test)
     X_test = X_test / 255.0
-    X_test = X_test.reshape(-1, img_size, img_size, 1)
 
     return X_test, y_test, file_paths
 
@@ -81,10 +80,10 @@ def predict_tumor_status(model_path, X_test, y_test, file_paths):
   
 def predict_single_data_category(model_path, img_path, img_size, categories):
     # Read and preprocess the image
-    img_array = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
+    img_array = cv2.imread(img_path, cv2.IMREAD_COLOR)  # Load image in color (RGB)
     new_array = cv2.resize(img_array, (img_size, img_size))
     new_array = new_array / 255.0
-    new_array = np.array(new_array).reshape(-1, img_size, img_size, 1)
+    new_array = np.array(new_array).reshape(-1, img_size, img_size, 3)  # Use 3 channels for RGB
 
     # Load the model
     model = load_model(model_path)
@@ -98,13 +97,12 @@ def predict_single_data_category(model_path, img_path, img_size, categories):
     tumor_type = LABEL_MESSAGES[predicted_label]
     return f"{tumor_type}'"
 
-
 def predict_single_data_status(model_path, img_path, img_size):
     # Read and preprocess the image
-    img_array = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
+    img_array = cv2.imread(img_path, cv2.IMREAD_COLOR)  # Load image in color (RGB)
     new_array = cv2.resize(img_array, (img_size, img_size))
     new_array = new_array / 255.0
-    new_array = np.array(new_array).reshape(-1, img_size, img_size, 1)
+    new_array = np.array(new_array).reshape(-1, img_size, img_size, 3)  # Use 3 channels for RGB
 
     # Load the model
     model = load_model(model_path)
@@ -113,19 +111,29 @@ def predict_single_data_status(model_path, img_path, img_size):
     prediction = model.predict(new_array)
 
     # Convert prediction to tumor status (1 if tumor, 0 if no tumor)
-    tumor_status_prediction = 1 if prediction.argmax() in [0, 1, 3] else 0
-    
-    if tumor_status_prediction==1:
+    tumor_status_prediction = 1 if np.argmax(prediction) in [0, 1, 3] else 0
+
+    if tumor_status_prediction == 1:
         return True
-    if tumor_status_prediction==0:
+    if tumor_status_prediction == 0:
         return False
-    
+
 if __name__ == "__main__":
     X_test, y_test, file_paths = load_test_data(TEST_DATA_DIR, IMG_SIZE)
-    model_path = f"${MODEL_DIR}/model.h5" 
-    predict_tumor_category(model_path, X_test, y_test, file_paths, CATEGORIES)
-    predict_tumor_status(model_path, X_test, y_test, file_paths)
-    TEST_IMAGE_PATH="../data/Testing/glioma_tumor/image(2).jpg"
+
+    # print("--------------------------")
+    # print(("ilk model"))
     
-    predict_single_data_category(model_path, TEST_IMAGE_PATH, IMG_SIZE, CATEGORIES)
-    predict_single_data_status(model_path, TEST_IMAGE_PATH, IMG_SIZE)
+    # predict_tumor_category(MODEL_DIR, X_test, y_test, file_paths, CATEGORIES)
+    # predict_tumor_status(MODEL_DIR, X_test, y_test, file_paths)
+    
+    print("--------------------------")
+    print(("vgg16"))
+    predict_tumor_category(VGG16, X_test, y_test, file_paths, CATEGORIES)
+    predict_tumor_status(VGG16, X_test, y_test, file_paths)
+    
+    print("--------------------------")
+    print(("mobileNet"))
+    predict_tumor_category(MOBILE_NET, X_test, y_test, file_paths, CATEGORIES)
+    predict_tumor_status(MOBILE_NET, X_test, y_test, file_paths)
+

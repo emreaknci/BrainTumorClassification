@@ -26,10 +26,12 @@ def load_data(DATADIR, CATEGORIES, IMG_SIZE):
         X.append(features)
         y.append(label)
 
-    X = np.array(X).reshape(-1, IMG_SIZE, IMG_SIZE)
-    X = X / 255.0  
-    X = X.reshape(-1, 150, 150, 1)
+    X = np.array(X).reshape(-1, IMG_SIZE, IMG_SIZE, 1)  # Add the grayscale channel
+    X = X / 255.0
+
+    # Repeat the grayscale channel three times to match VGG16 input shape
+    X = np.repeat(X, 3, axis=-1)
+
     y = to_categorical(y, num_classes=4)
 
     return X, y
-

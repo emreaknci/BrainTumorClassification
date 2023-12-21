@@ -1,7 +1,7 @@
 from matplotlib import pyplot as plt
 from sklearn.model_selection import train_test_split
 from data_loader import load_data
-from model import build_model
+from model import *
 from train import train_model
 from constant import * 
 
@@ -34,12 +34,11 @@ def plot_history(history):
     plt.show()
     
     
-    
-from keras.utils import plot_model
-
-# X, y = load_data(TRAINING_DATA_DIR, CATEGORIES, IMG_SIZE)
-# X_train, X_val, Y_train, Y_val = split_data(X, y)
-model = build_model()
-# history = train_model(model, X_train, Y_train, X_val, Y_val)
-# plot_history(history)
+X, y = load_data(TRAINING_DATA_DIR, CATEGORIES, IMG_SIZE)
+X_train, X_val, Y_train, Y_val = split_data(X, y)
+# model = build_model()
+# model = build_model_VGG16()
+model = build_model_MobileNet()
+history = train_model(model, X_train, Y_train, X_val, Y_val)
+plot_history(history)
 
