@@ -1,6 +1,6 @@
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPool2D,GlobalMaxPooling2D,BatchNormalization
-from keras.optimizers import Adam
+from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPool2D,GlobalMaxPooling2D,BatchNormalization,LeakyReLU
+from keras.optimizers import Adam,RMSprop
 from constant import *
 from keras.applications import VGG16,ResNet101,VGG19,MobileNetV2,Xception
 from keras.regularizers import l2
@@ -61,22 +61,58 @@ def build_model_MobileNet():
 
     for layer in base_model.layers[:-10]:
         layer.trainable = True
-    
+        
     model = Sequential()
     model.add(base_model)
     model.add(GlobalMaxPooling2D())
+    
     model.add(Dense(1024, activation='relu'))
     model.add(Dropout(0.5))
     model.add(BatchNormalization())  
+    
     model.add(Dense(512, activation='relu'))
     model.add(Dropout(0.5))
     model.add(BatchNormalization())  
+    
     model.add(Dense(256, activation='relu'))  
     model.add(Dropout(0.5))
     model.add(BatchNormalization())  
+    
     model.add(Dense(len(CATEGORIES), activation='softmax')) 
 
     optimizer = Adam(lr=0.001, beta_1=0.9, beta_2=0.999)
+    model.compile(optimizer=optimizer, loss="categorical_crossentropy", metrics=["accuracy"])
+    model.summary()
+    return model
+
+def build_model_MobileNet_RMSprop():
+    base_model = MobileNetV2(weights='imagenet', include_top=False, input_shape=INPUT_SHAPE, pooling=None, classifier_activation="softmax")
+
+    for layer in base_model.layers[:-10]:
+        layer.trainable = True
+        
+    model = Sequential()
+    model.add(base_model)
+    model.add(GlobalMaxPooling2D())
+    
+    model.add(Dense(1024))
+    model.add(LeakyReLU(alpha=0.1))
+    model.add(Dropout(0.5))
+    model.add(BatchNormalization())  
+    
+    model.add(Dense(512))
+    model.add(LeakyReLU(alpha=0.1))
+    model.add(Dropout(0.5))
+    model.add(BatchNormalization())  
+    
+    model.add(Dense(256))
+    model.add(LeakyReLU(alpha=0.1))
+    model.add(Dropout(0.5))
+    model.add(BatchNormalization())  
+    
+    model.add(Dense(len(CATEGORIES), activation='softmax')) 
+
+    optimizer = RMSprop(learning_rate=0.0001)
     model.compile(optimizer=optimizer, loss="categorical_crossentropy", metrics=["accuracy"])
     model.summary()
     return model

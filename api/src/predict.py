@@ -142,3 +142,8 @@ if __name__ == "__main__":
     print(("xception"))
     predict_tumor_category(XCEPTION, X_test, y_test, file_paths, CATEGORIES)
     predict_tumor_status(XCEPTION, X_test, y_test, file_paths)
+
+    print("--------------------------")
+    print(("MOBILE_NET_RMSprop"))
+    predict_tumor_category(MOBILE_NET_RMSprop, X_test, y_test, file_paths, CATEGORIES)
+    predict_tumor_status(MOBILE_NET_RMSprop, X_test, y_test, file_paths)

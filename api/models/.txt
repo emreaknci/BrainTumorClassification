@@ -1,0 +1,49 @@
+------TRAINING_DATA_DIR------
+
+vgg16
+Accuracy for 'predict_tumor_category': 95.57%
+Accuracy for 'predict_tumor_status': 99.41%
+
+--------------------------
+
+mobileNet
+Accuracy for 'predict_tumor_category': 99.23%
+Accuracy for 'predict_tumor_status'  : 99.86%
+
+--------------------------
+
+xception
+Accuracy for 'predict_tumor_category': 99.34%
+Accuracy for 'predict_tumor_status'  : 99.90%
+
+--------------------------
+
+MOBILE_NET_RMSprop
+Accuracy for 'predict_tumor_category': 99.30%
+Accuracy for 'predict_tumor_status'  : 99.76%
+
+---------------------------------------------------------
+
+------TEST_DATA_DIR------
+
+vgg16
+Accuracy for 'predict_tumor_category': 71.57%
+Accuracy for 'predict_tumor_status'  : 88.83%
+
+--------------------------
+
+mobileNet
+Accuracy for 'predict_tumor_category': 79.95%
+Accuracy for 'predict_tumor_status'  : 93.40%
+
+--------------------------
+
+xception
+Accuracy for 'predict_tumor_category': 80.96%
+Accuracy for 'predict_tumor_status'  : 93.91%
+
+--------------------------
+
+MOBILE_NET_RMSprop
+Accuracy for 'predict_tumor_category': 80.96%
+Accuracy for 'predict_tumor_status'  : 94.67%

@@ -15,6 +15,7 @@ TEST_DATA_DIR = "../data/Testing"
 # Path: src/models/..
 MODEL_DIR = "../models"
 MOBILE_NET = "../models/MobileNetV2/modelMobileNet.h5"
+MOBILE_NET_RMSprop = "../models/MobileNetV2_RMSprop/model.h5"
 VGG16 = "../models/VGG16/modelVGG16.h5"
 XCEPTION = "../models/Xception/xception.h5"
 FIRST_MODEL = "../models/model/model.h5"

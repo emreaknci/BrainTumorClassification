@@ -2,7 +2,7 @@ from keras.preprocessing.image import ImageDataGenerator
 from constant import *
 from keras.callbacks import EarlyStopping,ReduceLROnPlateau,LearningRateScheduler
 
-def train_model(model, X_train, Y_train, X_val, Y_val, epochs=50, batch_size=40):
+def train_model(model, X_train, Y_train, X_val, Y_val, epochs=50, batch_size=64):
     datagen = ImageDataGenerator(
         rotation_range=20,
         width_shift_range=0.1,
