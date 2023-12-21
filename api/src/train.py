@@ -19,12 +19,10 @@ def train_model(model, X_train, Y_train, X_val, Y_val, epochs=50, batch_size=40)
     reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=5, min_lr=1e-6)
 
     def lr_schedule(epoch):
-        if epoch < 10:
-            return 0.001
-        elif 10 <= epoch < 20:
-            return 0.0001
-        else:
-            return 0.00001
+        initial_lr = 0.001
+        drop_factor = 0.1
+        epochs_drop = 10
+        return initial_lr * (drop_factor ** (epoch // epochs_drop))
 
     lr_scheduler = LearningRateScheduler(lr_schedule)
 
@@ -35,7 +33,7 @@ def train_model(model, X_train, Y_train, X_val, Y_val, epochs=50, batch_size=40)
                         callbacks=[early_stopping, reduce_lr, lr_scheduler]
                         )
 
-    model.save(f"{MODEL_DIR}/modelMobileNet.h5")
+    model.save(f"{MODEL_DIR}/model.h5")
     
     return history
 
