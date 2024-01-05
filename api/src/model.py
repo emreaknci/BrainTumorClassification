@@ -1,12 +1,14 @@
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPool2D,GlobalMaxPooling2D,BatchNormalization,LeakyReLU
-from keras.optimizers import Adam,RMSprop
+from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPool2D, GlobalMaxPooling2D, BatchNormalization, LeakyReLU
+from keras.optimizers import Adam, RMSprop
 from constant import *
-from keras.applications import VGG16,ResNet101,VGG19,MobileNetV2,Xception
+from keras.applications import VGG16, ResNet101, VGG19, MobileNetV2, Xception
 from keras.regularizers import l2
 
 def build_model():
-    
+    """
+    Özel bir evrişimli sinir ağı modeli oluşturur.
+    """
     model = Sequential()
     model.add(Conv2D(filters=64, kernel_size=(5, 5), padding='Same', activation='relu', input_shape=INPUT_SHAPE))
     model.add(MaxPool2D(pool_size=(2, 2)))
@@ -39,6 +41,9 @@ def build_model():
     return model
 
 def build_model_VGG16():
+    """
+    VGG16 modelini kullanarak bir evrişimli sinir ağı modeli oluşturur.
+    """
     base_model = VGG16(weights='imagenet', include_top=False, input_shape=INPUT_SHAPE)
 
     for layer in base_model.layers:
@@ -57,6 +62,9 @@ def build_model_VGG16():
     return model
 
 def build_model_MobileNet():
+    """
+    MobileNetV2 modelini kullanarak bir evrişimli sinir ağı modeli oluşturur.
+    """
     base_model = MobileNetV2(weights='imagenet', include_top=False, input_shape=INPUT_SHAPE, pooling=None, classifier_activation="softmax")
 
     for layer in base_model.layers[:-10]:
@@ -86,6 +94,9 @@ def build_model_MobileNet():
     return model
 
 def build_model_MobileNet_RMSprop():
+    """
+    #MobileNetV2 modelini kullanarak RMSprop optimizer ile bir evrişimli sinir ağı modeli oluşturur.
+    """
     base_model = MobileNetV2(weights='imagenet', include_top=False, input_shape=INPUT_SHAPE, pooling=None, classifier_activation="softmax")
 
     for layer in base_model.layers[:-10]:
@@ -118,10 +129,13 @@ def build_model_MobileNet_RMSprop():
     return model
 
 def build_model_Xception():
+    """
+    Xception modelini kullanarak bir evrişimli sinir ağı modeli oluşturur.
+    """
     base_model = Xception(weights='imagenet', include_top=False, input_shape=INPUT_SHAPE, pooling=None)
     
     for layer in base_model.layers[:-10]:
-            layer.trainable = True
+        layer.trainable = True
     
     model = Sequential()
     model.add(base_model)

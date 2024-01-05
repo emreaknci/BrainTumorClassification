@@ -7,6 +7,10 @@ def load_data(DATADIR, CATEGORIES, IMG_SIZE):
     training_data = []
 
     def create_training_data():
+        """
+        Verilen kategoriler ve veri dizini temel alınarak eğitim verisini oluşturur.
+        Her bir görüntüyü gri tonlamalı olarak okur, belirtilen boyuta yeniden boyutlandırır ve eğitim verisine ekler.
+        """
         for category in CATEGORIES:
             path = os.path.join(DATADIR, category)
             class_num = CATEGORIES.index(category)
@@ -20,18 +24,21 @@ def load_data(DATADIR, CATEGORIES, IMG_SIZE):
 
     create_training_data()
 
+    # Veriyi X ve y olarak ayırma
     X = []
     y = []
     for features, label in training_data:
         X.append(features)
         y.append(label)
 
-    X = np.array(X).reshape(-1, IMG_SIZE, IMG_SIZE, 1)  # Add the grayscale channel
+    # Veriyi uygun formatta düzenleme
+    X = np.array(X).reshape(-1, IMG_SIZE, IMG_SIZE, 1)  # Gri tonlama kanalını ekleyin
     X = X / 255.0
 
-    # Repeat the grayscale channel three times to match VGG16 input shape
+    # VGG16 giriş şeklini elde etmek için gri tonlama kanalını üç kez tekrarlar
     X = np.repeat(X, 3, axis=-1)
 
+    # Etiketleri kategorik hale getirme
     y = to_categorical(y, num_classes=4)
 
     return X, y
