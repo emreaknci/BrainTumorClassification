@@ -107,7 +107,7 @@ def predict_single_data_category(model_path, img_path, img_size, categories):
     predicted_label = categories[np.argmax(prediction)]
 
     tumor_type = LABEL_MESSAGES[predicted_label]
-    return f"{tumor_type}'"
+    return f"{tumor_type}"
 
 def predict_single_data_status(model_path, img_path, img_size):
     """

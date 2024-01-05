@@ -5,10 +5,10 @@ import './App.css';
 
 const App = () => {
   const [selectedFile, setSelectedFile] = useState(null);
-  const [result, setResult] = useState(null);
+  const [type, setType] = useState(null);
   const [uploadButtonVisible, setUploadButtonVisible] = useState(false);
-
-  const MESSAGE = "However, the results may not be completely accurate, so it's a good idea to ask a professional for a definite answer.";
+  const [result, setResult] = useState(null);
+  const MESSAGE = "Ancak sonuçlar tam olarak doğru olmayabilir, bu yüzden kesin bir cevap almak için doktora görünmek iyi bir fikir olabilir";
 
   const onDrop = (acceptedFiles) => {
     setSelectedFile(acceptedFiles[0]);
@@ -27,9 +27,14 @@ const App = () => {
         const formData = new FormData();
         formData.append('image', selectedFile);
 
-        const response = await axios.post('http://localhost:5000/predict_status', formData);
+        const response = await axios.post('http://localhost:5000/predict_category', formData);
 
-        setResult(response.data.result);
+        setType(response.data.type);
+        if (response.data.type.includes('Yok')) {
+          setResult(true);
+        } else {
+          setResult(false);
+        }
       }
     } catch (error) {
       console.error('Error:', error);
@@ -39,6 +44,7 @@ const App = () => {
   const handleDeleteClick = () => {
     setSelectedFile(null);
     setUploadButtonVisible(false);
+    setType(null);
     setResult(null);
   };
 
@@ -48,7 +54,7 @@ const App = () => {
 
   const handleUploadAndPredictClick = async () => {
     if (!selectedFile) {
-      alert('Please select a file first.');
+      alert('Lütfen bir resim seçin');
       return;
     }
 
@@ -58,7 +64,7 @@ const App = () => {
   return (
     <div>
       <nav className="navbar">
-        <h1>Brain Tumor Detection</h1>
+        <h1>Beyin Tümör Analizi</h1>
       </nav>
 
       <div className="app-container">
@@ -75,25 +81,26 @@ const App = () => {
                 <p>{selectedFile.name}</p>
               </>
             ) : (
-              <p>Drag & drop an image here, or click to select one</p>
+              <h4>Bir resmi buraya sürükleyip bırakın veya seçmek için tıklayın</h4>
             )}
           </div>
           {selectedFile && (
             <button className="delete-button" onClick={handleDeleteClick}>
-              Clear
+              Temizle
             </button>
           )}
         </div>
 
         <button onClick={handleUploadAndPredictClick} className="upload-button">
-          Upload and Predict
+          Yükle ve Tahmin Et
         </button>
 
         {result !== null && (
-          <div className="result-container" style={{ backgroundColor: !result ? 'green' : 'rgb(208, 13, 13)' }}>
-            <h2>Prediction Result</h2>
-            <p >{result ? `Based on the file you shared, it seems like there might be a tumor. ${MESSAGE}` 
-            : `Based on the file you shared, it seems like there might be no tumor. ${MESSAGE}`}</p>
+          <div className="result-container" style={{ backgroundColor: result ? '#27ae60' : '#c0392b' }}>
+            <h2>Tahmin Sonucu</h2>
+            <h3 >{type}</h3>
+            <h4 >{!result ? `Paylaştığınız dosyaya dayanarak, bir tümör olabileceğini söylemek mümkün görünüyor. ${MESSAGE}` 
+            : `Paylaştığınız dosyaya dayanarak herhangi bir tümör bulgusuna rastlanmadı. ${MESSAGE}`}</h4>
           </div>
         )}
       </div>
