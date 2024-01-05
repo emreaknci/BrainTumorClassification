@@ -21,7 +21,8 @@ def predict_category():
             file.save(image_path)
            
             # Modeli yükleme ve kategori tahmini yapma
-            model_path = f"{MODEL_DIR}/model.h5"
+            model_path = model_path = MOBILE_NET_RMSprop
+
             result = predict_single_data_category(model_path, image_path, IMG_SIZE, CATEGORIES)
 
             # Geçici dosyayı silme
@@ -50,7 +51,8 @@ def predict_status():
             file.save(image_path)
            
             # Modeli yükleme ve durum tahmini yapma
-            model_path = f"{MODEL_DIR}/model.h5"
+            model_path = model_path = MOBILE_NET_RMSprop
+
             result = predict_single_data_status(model_path, image_path, IMG_SIZE)
 
             # Geçici dosyayı silme
